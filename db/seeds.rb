@@ -8,3 +8,5 @@
 Cage.create(:max_capacity => 10, :current_count => 0, :power_status => "active")
 Cage.create(:max_capacity => 4, :current_count => 0, :power_status => "down")
 
+Dinosaur.create(:name => "Dino", :species => "Brontosaurus", :classification => "herbivore")
+Dinosaur.create(:name => "Rex", :species => "Tyrannosaurus", :classification => "carnivore")
