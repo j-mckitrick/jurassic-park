@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  max_capacity: 1
+  current_count: 1
+  power_status: MyString
+
+two:
+  max_capacity: 1
+  current_count: 1
+  power_status: MyString
