@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+Cage.create(:max_capacity => 10, :current_count => 0, :power_status => "active")
+Cage.create(:max_capacity => 4, :current_count => 0, :power_status => "down")
+

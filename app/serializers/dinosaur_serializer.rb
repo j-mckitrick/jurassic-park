@@ -1,3 +1,3 @@
 class DinosaurSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :name, :species, :classification, :cage
 end
