@@ -4,8 +4,10 @@ TODO:
 
 * use defaults for power_status rather than validate for existence
 
-* validate relations (check cages when saving dinos)
-
 * return errors for invalid query params
 
-* figure out why associated validation is not working on dinos/cages
+* complete unit tests (models and controllers)
+
+In a concurrent environment, we would probably need authentication/authorization.
+It would also make sense to add some locking so that resources would be updated
+in a sane fashion and avoid deadlocks or out-of-sync data.
