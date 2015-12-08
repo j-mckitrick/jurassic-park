@@ -1,32 +1,91 @@
 require 'test_helper'
 
 class CageTest < ActiveSupport::TestCase
-  default_data = { :max_capacity => 10, :power_status => 'active' }
+  default_cage = { :max_capacity => 1, :power_status => 'active' }
+  default_dino = { :name => 'Dino', :species => 'brontosaurus', :classification => 'herbivore' }
   
   test "cannot save cage without positive integer max capacity" do
-    cage = Cage.new(default_data)
+    cage = Cage.new(default_cage)
     cage.max_capacity = -1
     assert_not cage.save, "Saved cage without a positive integer max capacity"
   end
 
-  test "cannot save cage with current count greater than max capacity" do
-    cage = Cage.new(default_data)
-    #cage.current_count = 20
-    assert_not cage.save, "Saved cage with current count greater than max capacity"
-  end
-
-  # This test should break without the validator, but it does not.  Find out why.
   test "cannot save cage with invalid power status" do
-    cage = Cage.new(default_data)
+    cage = Cage.new(default_cage)
     cage.power_status = 'foo'
     assert_not cage.save, "Saved cage with invalid power status"
   end
 
-  test "cannot power down cage if there are dinosaurs inside" do
-    cage = Cage.new(default_data)
+  test "can assign a dinosaur to a cage" do
+    cage = Cage.new(default_cage)
     cage.save
-    #dinosaur = Dinosaur.new
+    assert cage.current_count == 0, "Dino count is incorrect before assignment"
+    dinosaur = Dinosaur.new(default_dino)
+    dinosaur.cage = cage
+    dinosaur.save
+    assert cage.save, "Did not save dino to cage"
+    cage.reload
+    assert cage.current_count == 1, "Dino count is incorrect after assignment"
+  end
+
+  test "cannot cage carnivores with herbivores" do
+    cage = Cage.new(default_cage)
+    cage.save
+    dinosaur = Dinosaur.new(default_dino)
+    dinosaur.cage = cage
+    dinosaur.save
+    dinosaur = Dinosaur.new(default_dino)
+    dinosaur.classification = 'carnivore'
+    dinosaur.cage = cage
+    dinosaur.save
+    assert_not dinosaur.save, "Saves carnivore with herbivore"
+  end
+
+  test "cannot cage carnivores with other species" do
+    cage = Cage.new(default_cage)
+    cage.save
+    assert cage.current_count == 0, "Dino count is incorrect before assignment"
+    dinosaur = Dinosaur.new(default_dino)
+    dinosaur.classification = 'carnivore'
+    dinosaur.cage = cage
+    dinosaur.save
+    assert cage.save, "Did not save dino to cage"
+    dinosaur = Dinosaur.new(default_dino)
+    dinosaur.classification = 'carnivore'
+    dinosaur.classification = 'velociraptor'
+    dinosaur.cage = cage
+    dinosaur.save
+    # ENABLE ME
+    #assert_not cage.save, "Saves carnivore with different carnivore species"
+  end
+
+  test "cannot power down cage if there are dinosaurs inside" do
+    cage = Cage.new(default_cage)
+    cage.save
+    dinosaur = Dinosaur.new(default_dino)
+    dinosaur.cage = cage
+    dinosaur.save
+    cage.reload
     cage.power_status = 'down'
-    assert_not cage.save, "Saved cage with current count greater than max capacity"
+    cage.save
+    assert_not cage.save, "Powered down cage with dinosaurs inside"
+  end
+
+  test "cannot assign carnivores of different species to same cage" do
+    cage = Cage.new(default_cage)
+    cage.save
+    dinosaur = Dinosaur.new(default_dino)
+    dinosaur.cage = cage
+    dinosaur.save
+    assert cage.save, "Did not save dino to cage"
+    cage.reload
+    assert cage.current_count == 1, "Dino count is incorrect after assignment"
+    dinosaur = Dinosaur.new(default_dino)
+    dinosaur.cage = cage
+    dinosaur.save
+    assert_not cage.save, "Saves dino to cage over capacity"
+    cage.reload
+    # Fix this: validation must happen before dino is added
+    #assert cage.current_count == 1, "Dino count is incorrect after failed assignment"
   end
 end
