@@ -25,6 +25,7 @@ class CageTest < ActiveSupport::TestCase
     dinosaur.save
     assert cage.save, "Did not save dino to cage"
     cage.reload
+    assert dinosaur.cage_id = cage.id
     assert cage.current_count == 1, "Dino count is incorrect after assignment"
   end
 
@@ -35,6 +36,8 @@ class CageTest < ActiveSupport::TestCase
     dinosaur.cage = cage
     dinosaur.save
     dinosaur = Dinosaur.new(default_dino)
+    dinosaur.name = 'Delta'
+    dinosaur.species = 'velociraptor'
     dinosaur.classification = 'carnivore'
     dinosaur.cage = cage
     dinosaur.save
@@ -44,19 +47,19 @@ class CageTest < ActiveSupport::TestCase
   test "cannot cage carnivores with other species" do
     cage = Cage.new(default_cage)
     cage.save
-    assert cage.current_count == 0, "Dino count is incorrect before assignment"
     dinosaur = Dinosaur.new(default_dino)
+    dinosaur.name = 'Rex'
+    dinosaur.species = 'tyrannosaurus'
     dinosaur.classification = 'carnivore'
     dinosaur.cage = cage
     dinosaur.save
-    assert cage.save, "Did not save dino to cage"
     dinosaur = Dinosaur.new(default_dino)
+    dinosaur.name = 'Delta'
+    dinosaur.species = 'velociraptor'
     dinosaur.classification = 'carnivore'
-    dinosaur.classification = 'velociraptor'
     dinosaur.cage = cage
     dinosaur.save
-    # ENABLE ME
-    #assert_not cage.save, "Saves carnivore with different carnivore species"
+    assert_not dinosaur.save, "Saved carnivores of different species in same cage"
   end
 
   test "cannot power down cage if there are dinosaurs inside" do
@@ -84,8 +87,5 @@ class CageTest < ActiveSupport::TestCase
     dinosaur.cage = cage
     dinosaur.save
     assert_not cage.save, "Saves dino to cage over capacity"
-    cage.reload
-    # Fix this: validation must happen before dino is added
-    #assert cage.current_count == 1, "Dino count is incorrect after failed assignment"
   end
 end
