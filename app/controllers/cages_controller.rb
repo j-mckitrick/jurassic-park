@@ -11,7 +11,13 @@ class CagesController < ApplicationController
   end
 
   def index
-    render json: Cage.all
+    Rails.logger.info "Index query #{params}"
+    status = params[:status]
+    if status && Set['active', 'down'].include?(status)
+      render json: Cage.where(:power_status => status)
+    else
+      render json: Cage.all
+    end
   end
 
   def cage_params
