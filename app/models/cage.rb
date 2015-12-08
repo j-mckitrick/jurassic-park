@@ -12,4 +12,8 @@ class Cage < ActiveRecord::Base
   #     errors.add(:current_count, "Not enough room for this many dinosaurs")
   #   end
   # end
+
+  def current_count
+    dinosaurs.size
+  end
 end

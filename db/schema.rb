@@ -15,10 +15,9 @@ ActiveRecord::Schema.define(version: 20151207234627) do
 
   create_table "cages", force: :cascade do |t|
     t.integer  "max_capacity"
-    t.integer  "current_count"
     t.string   "power_status"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "dinosaurs", force: :cascade do |t|

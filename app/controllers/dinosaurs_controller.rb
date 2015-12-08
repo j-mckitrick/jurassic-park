@@ -19,7 +19,7 @@ class DinosaursController < ApplicationController
   end
 
   def dinosaur_params
-    params.permit(:name, :species, :classification, :cage)
+    params.permit(:name, :species, :classification, :cage_id)
   end
 
   def create
