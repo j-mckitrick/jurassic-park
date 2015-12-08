@@ -13,7 +13,7 @@ class DinosaursController < ApplicationController
     if @dinosaur.save
       render json: @dinosaur, status: :created
     else
-      render json: @dinosaur, status: :unprocessable_entity
+      render json: @dinosaur.errors, status: :unprocessable_entity
     end
   end
 end
