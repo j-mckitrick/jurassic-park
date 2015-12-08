@@ -20,6 +20,11 @@ class CagesController < ApplicationController
     end
   end
 
+  def list
+    Rails.logger.info "List #{@cage}"
+    render json: @cage.dinosaurs
+  end
+  
   def cage_params
     params.permit(:max_capacity, :power_status)
   end
