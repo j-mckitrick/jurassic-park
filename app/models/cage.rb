@@ -1,4 +1,5 @@
 class Cage < ActiveRecord::Base
+  has_many :dinosaurs
   validates :max_capacity, :current_count, :power_status, :presence => true
   validates :max_capacity, :current_count, :numericality => {:only_integer => true,
                                                              :greater_than => 0}

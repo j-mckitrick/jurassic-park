@@ -3,6 +3,7 @@ class CagesController < ApplicationController
 
   def fetch_cage
     @cage = Cage.find_by_id(params[:id])
+    Rails.logger.info "Dinos: #{@cage.dinosaurs.size}"
   end
 
   def show

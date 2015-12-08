@@ -21,4 +21,12 @@ class CageTest < ActiveSupport::TestCase
     cage.power_status = 'foo'
     assert_not cage.save, "Saved cage with invalid power status"
   end
+
+  test "cannot power down cage if there are dinosaurs inside" do
+    cage = Cage.new(default_data)
+    cage.save
+    #dinosaur = Dinosaur.new
+    cage.power_status = 'down'
+    assert_not cage.save, "Saved cage with current count greater than max capacity"
+  end
 end
