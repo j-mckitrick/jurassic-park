@@ -26,3 +26,10 @@ Things you may want to cover:
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
+
+TODO:
+
+* change power_status and classification to enums
+
+* use defaults for current_count, power_status, and cage rather than validate for existence
+

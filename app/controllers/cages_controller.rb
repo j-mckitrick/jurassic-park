@@ -13,7 +13,7 @@ class CagesController < ApplicationController
     if @cage.save
       render json: @cage, status: :created
     else
-      render json: @cage, status: :unprocessable_entity
+      render json: @cage.errors, status: :unprocessable_entity
     end
   end
 end
