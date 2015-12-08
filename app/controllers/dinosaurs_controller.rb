@@ -1,4 +1,14 @@
 class DinosaursController < ApplicationController
+  before_filter :fetch_dinosaur, :except => [:index, :create]
+
+  def fetch_dinosaur
+    @dinosaur = Dinosaur.find_by_id(params[:id])
+  end
+
+  def show
+    render json: @dinosaur
+  end
+
   def index
     render json: Dinosaur.all
   end
@@ -12,6 +22,15 @@ class DinosaursController < ApplicationController
 
     if @dinosaur.save
       render json: @dinosaur, status: :created
+    else
+      render json: @dinosaur.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    Rails.logger.info "Found dinosaur to update #{@dinosaur}"
+    if @dinosaur.update_attributes(dinosaur_params)
+      head :no_content, status: :ok
     else
       render json: @dinosaur.errors, status: :unprocessable_entity
     end
