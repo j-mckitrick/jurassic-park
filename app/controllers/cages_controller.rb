@@ -26,7 +26,7 @@ class CagesController < ApplicationController
   end
   
   def cage_params
-    params.permit(:max_capacity, :power_status)
+    params.permit(:max_capacity, :power_status, :id)
   end
 
   def create
@@ -41,7 +41,7 @@ class CagesController < ApplicationController
 
   def update
     Rails.logger.info "Found cage to update #{@cage}"
-    if @cage.update_attributes(cage_params)
+    if @cage.update_attributes(cage_params) && @cage.valid?
       head :no_content, status: :ok
     else
       render json: @cage.errors, status: :unprocessable_entity

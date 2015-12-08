@@ -19,7 +19,7 @@ class DinosaursController < ApplicationController
   end
 
   def dinosaur_params
-    params.permit(:name, :species, :classification, :cage_id)
+    params.permit(:name, :species, :classification, :cage_id, :id)
   end
 
   def create
@@ -34,7 +34,7 @@ class DinosaursController < ApplicationController
 
   def update
     Rails.logger.info "Found dinosaur to update #{@dinosaur}"
-    if @dinosaur.update_attributes(dinosaur_params)
+    if @dinosaur.update_attributes(dinosaur_params) && @dinosaur.valid?
       head :no_content, status: :ok
     else
       render json: @dinosaur.errors, status: :unprocessable_entity
