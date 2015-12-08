@@ -10,7 +10,12 @@ class DinosaursController < ApplicationController
   end
 
   def index
-    render json: Dinosaur.all
+    species = params[:species]
+    if species && species != ''
+      render json: Dinosaur.where(:species => species)
+    else
+      render json: Dinosaur.all
+    end
   end
 
   def dinosaur_params

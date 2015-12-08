@@ -31,7 +31,7 @@ TODO:
 
 * change power_status and classification to enums
 
-* use defaults for current_count, power_status, and cage rather than validate for existence
+* use defaults for power_status, and cage rather than validate for existence
 
 * validate relations
 

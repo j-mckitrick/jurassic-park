@@ -5,8 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Cage.create(:max_capacity => 10, :current_count => 0, :power_status => "active")
-Cage.create(:max_capacity => 4, :current_count => 0, :power_status => "down")
+Cage.create(:max_capacity => 10, :power_status => "active")
+Cage.create(:max_capacity => 4, :power_status => "down")
 
-Dinosaur.create(:name => "Dino", :species => "Brontosaurus", :classification => "herbivore")
-Dinosaur.create(:name => "Rex", :species => "Tyrannosaurus", :classification => "carnivore")
+Dinosaur.create(:name => "Dino", :species => "brontosaurus", :classification => "herbivore")
+Dinosaur.create(:name => "Rex", :species => "tyrannosaurus", :classification => "carnivore")

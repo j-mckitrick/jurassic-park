@@ -21,7 +21,7 @@ class CagesController < ApplicationController
   end
 
   def cage_params
-    params.permit(:max_capacity, :current_count, :power_status)
+    params.permit(:max_capacity, :power_status)
   end
 
   def create
